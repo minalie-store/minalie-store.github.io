@@ -162,7 +162,7 @@
       '<div class="announce">Miễn phí vận chuyển cho đơn từ ' + fmt(C.freeShipFrom) + " và đơn chuyển khoản · Đổi hàng trong 3 ngày</div>" +
       '<header class="header"><div class="bar"><div class="left"><button class="icon-btn menu-btn" id="open-menu" aria-label="Mở menu">' + ICON.menu + '</button><nav class="nav" aria-label="Chính">' + nav + '</nav></div>' +
       '<a class="logo" href="index.html" aria-label="Minalie, về trang chủ"><span class="logo-ico" aria-hidden="true"></span><span>Minalie</span></a>' +
-      '<div class="right"><button class="icon-btn" id="open-search" aria-label="Tìm kiếm">' + ICON.search + '</button>' +
+      '<div class="right"><button class="icon-btn" id="open-search" aria-label="Tìm kiếm">' + ICON.search + '<span class="sl">Tìm kiếm</span></button>' +
       '<a class="icon-btn" href="danh-muc.html?nhom=yeu-thich" aria-label="Yêu thích">' + ICON.heart + '<span class="badge" id="wish-count" style="display:none">0</span></a>' +
       '<a class="icon-btn" href="gio-hang.html" aria-label="Giỏ hàng">' + ICON.bag + '<span class="badge" id="cart-count" style="display:none">0</span></a></div></div></header>' +
       '<div class="scrim" id="scrim"></div><aside class="drawer" id="drawer" aria-label="Menu"><button class="icon-btn close" id="close-menu" aria-label="Đóng menu">' + ICON.close + "</button><div style=\"height:44px\"></div>" + drawer + "</aside>" +
@@ -209,21 +209,29 @@
   function pageHome() {
     setTitle("", "Minalie: Elegance in Ease, thanh lịch trong sự thoải mái. Thời trang nữ thiết kế. Elise Dress, Marine Set, áo dài Nhiên.");
     var feat = byId("elise-dress"), mar = byId("marine-set");
+    var all = []; P.forEach(function (p) { p.modes.forEach(function (m) { all.push({ p: p, m: m }); }); });
+    var cats = [["Áo", "danh-muc.html?nhom=ao"], ["Váy", "danh-muc.html?nhom=vay"], ["Quần", "danh-muc.html?nhom=quan"], ["Set", "danh-muc.html?nhom=set"], ["Bộ sưu tập", "bo-suu-tap.html"], ["Mới nhất", "moi-nhat.html"]];
     var tiles = COLS.map(function (c, i) {
       var p = P.filter(function (x) { return x.collection === c.id; })[0]; var img = p ? firstImage(p) : "";
       return '<a class="tile t' + (i + 1) + (img ? "" : " noimg") + '" href="bo-suu-tap.html?c=' + c.id + '"><div class="bg">' + (img ? '<img loading="lazy" src="' + img + '" alt="">' : '<span class="big-m" aria-hidden="true">M</span>') + '</div><div class="over"><span class="tno" aria-hidden="true">0' + (i + 1) + "</span><h3>" + esc(c.name) + "</h3><p>" + esc(c.blurb) + "</p></div></a>";
     }).join("");
     var perks = [["Giao toàn quốc", "Dự kiến 3 – 5 ngày."], ["Miễn phí vận chuyển", "Đơn từ " + fmt(C.freeShipFrom) + " hoặc đơn chuyển khoản."], ["Đổi hàng 3 ngày", "Đổi màu hoặc size, đổi 1:1 nếu lỗi sản xuất."], ["Tư vấn size", "Theo chiều cao và cân nặng, có bảng số đo từng mẫu."]];
-    app().innerHTML =
-      '<section class="hero"><div class="wrap hero-in"><p class="kick"><span>Minalie</span><span>Bộ sưu tập mới</span><span>2026</span></p>' +
-      '<h1><span class="ln a">Elegance</span><span class="ln b">in</span><span class="ln c"><em>Ease.</em></span></h1>' +
-      '<div class="hero-pics"><figure class="p1"><img src="' + firstImage(feat) + '" alt="Elise Dress màu trắng kem"></figure><figure class="p2" data-par="-0.06"><img src="' + firstImage(mar) + '" alt="Marine Set màu xanh than"></figure><div class="stamp" aria-hidden="true"><span>Elise<br>Dress</span></div></div>' +
-      '<div class="hero-copy"><p class="sub-vi">Thanh lịch trong sự thoải mái.</p><p class="lead">Thời trang nữ thiết kế cho người làm việc bằng tri thức: thoải mái khi ngồi nhiều giờ, chỉn chu khi bước vào lớp học, phòng họp hay màn hình cuộc gọi.</p><div class="actions"><a class="btn" href="moi-nhat.html">Khám phá mới nhất</a><a class="btn ghost" href="gioi-thieu.html">Về Minalie</a></div></div></div></section>' +
-      marquee(["Elegance in Ease", "Thoải mái", "Chỉn chu", "Ứng dụng"], ["Tự tin", "Động lực", "Trí tuệ", "Thẩm mỹ"]) +
-      '<section class="sec"><div class="wrap">' + secHead("01", "Mới ra mắt", "moi-nhat.html") + gridHtml(listEntries("moi-nhat"), "rail") + "</div></section>" +
+    var gram = []; P.forEach(function (p) { p.colors.forEach(function (c) { (c.images || []).forEach(function (im) { if (gram.indexOf(im) < 0) gram.push(im); }); }); });
+    gram = gram.slice(0, 6);
+    var ig = gram.map(function (im) { return '<a href="' + C.instagram + '" target="_blank" rel="noopener" aria-label="Xem trên Instagram"><img loading="lazy" src="' + im + '" alt=""></a>'; }).join("");
+    app().innerHTML = '<div class="rt">' +
+      '<section class="rt-hero" aria-label="Nổi bật">' +
+      '<a class="rt-tile" href="san-pham.html?id=' + feat.id + '"><img src="' + firstImage(feat) + '" alt="Elise Dress màu trắng kem"><div class="rt-over"><p class="rt-k">Bộ sưu tập mới · 2026</p><h1>Elegance in Ease.</h1><p class="rt-s">Thanh lịch trong sự thoải mái.</p><span class="btn light">Mua Elise Dress</span></div></a>' +
+      '<a class="rt-tile" href="san-pham.html?id=' + mar.id + '"><img src="' + firstImage(mar) + '" alt="Marine Set màu xanh than"><div class="rt-over"><p class="rt-k">Bộ áo và quần đũi tre</p><h2>Marine Set</h2><p class="rt-s">Nhẹ, thoáng, chỉn chu cả ngày.</p><span class="btn light">Mua Marine Set</span></div></a></section>' +
+      '<nav class="rt-cats" aria-label="Danh mục">' + cats.map(function (c) { return '<a href="' + c[1] + '">' + c[0] + "</a>"; }).join("") + "</nav>" +
+      '<section class="rt-sec"><div class="wrap"><div class="rt-head"><h2>Mới ra mắt</h2><a class="more" href="moi-nhat.html">Xem tất cả</a></div><div class="rt-railwrap"><button class="rt-arr prev" type="button" aria-label="Xem sản phẩm trước">‹</button><div class="rt-rail" id="rt-rail">' + listEntries("moi-nhat").map(card).join("") + '</div><button class="rt-arr next" type="button" aria-label="Xem sản phẩm sau">›</button></div></div></section>' +
       '<section class="words"><div class="wrap"><span class="eyebrow">Minalie thiết kế gì?</span><div class="big"><span data-rv><b>Timeless designs.</b><small>Thiết kế vượt thời gian</small></span><span data-rv><b>Thoughtful details.</b><small>Chi tiết tinh tế</small></span><span data-rv><b>Everyday comfort.</b><small>Thoải mái mỗi ngày</small></span></div><div class="words-foot" data-rv><p>Chất liệu ít nhăn, thoáng mát, giữ dáng. Phom suông nhẹ, dễ phối với những món đã có trong tủ đồ.</p><a class="btn" href="gioi-thieu.html">Đọc triết lý thiết kế</a></div></div></section>' +
-      '<section class="sec dark"><div class="wrap">' + secHead("02", "Bộ sưu tập", "bo-suu-tap.html") + '<div class="tiles">' + tiles + "</div></div></section>" +
-      '<section class="sec"><div class="wrap">' + secHead("03", "Cam kết mua sắm") + '<div class="perks">' + perks.map(function (k, i) { return '<div class="perk" data-rv><span class="pn" aria-hidden="true">0' + (i + 1) + "</span><b>" + k[0] + "</b>" + k[1] + "</div>"; }).join("") + "</div></div></section>";
+      '<section class="rt-sec"><div class="wrap"><div class="rt-head"><h2>Tất cả sản phẩm</h2><a class="more" href="danh-muc.html">Xem tất cả</a></div>' + gridHtml(all, "rt-grid") + "</div></section>" +
+      '<section class="sec dark"><div class="wrap"><div class="rt-head"><h2>Bộ sưu tập</h2><a class="more" href="bo-suu-tap.html">Xem tất cả</a></div><div class="tiles">' + tiles + "</div></div></section>" +
+      '<section class="rt-sec"><div class="wrap"><div class="perks">' + perks.map(function (k, i) { return '<div class="perk"><b>' + k[0] + "</b>" + k[1] + "</div>"; }).join("") + "</div></div></section>" +
+      '<section class="rt-ig"><div class="wrap"><h2>Theo dõi Minalie trên Instagram</h2><p>@minali.store.official</p><div class="rt-igrid">' + ig + '</div><a class="btn ghost" href="' + C.instagram + '" target="_blank" rel="noopener">Theo dõi</a></div></section></div>';
+    var rail = $("#rt-rail");
+    $$(".rt-arr").forEach(function (b) { b.onclick = function () { rail.scrollBy({ left: (b.classList.contains("next") ? 1 : -1) * rail.clientWidth * 0.8, behavior: "smooth" }); }; });
   }
 
   /* ---------- danh mục, bộ sưu tập ---------- */
