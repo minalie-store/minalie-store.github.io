@@ -242,7 +242,7 @@
     $$(".rt-arr").forEach(function (b) { b.onclick = function () { rail.scrollBy({ left: (b.classList.contains("next") ? 1 : -1) * rail.clientWidth * 0.8, behavior: "smooth" }); }; });
     var track = $("#bn-track");
     if (track) {
-      var dots = $$("#bn-dots button"), n = dots.length, cur = 0, timer = null, paused = false, resumeAt = 0, INTERVAL = 4500;
+      var dots = $$("#bn-dots button"), n = dots.length, cur = 0, timer = null, paused = false, resumeAt = 0, INTERVAL = 2000;
       var reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
       var go = function (i) {
         cur = (i + n) % n;
@@ -252,11 +252,11 @@
       };
       var mark = function () { var i = Math.round(track.scrollLeft / track.clientWidth); cur = i; dots.forEach(function (d, k) { d.classList.toggle("on", k === i); d.setAttribute("aria-current", k === i ? "true" : "false"); }); };
       track.addEventListener("scroll", mark, { passive: true });
-      dots.forEach(function (d, k) { d.onclick = function () { go(k); resumeAt = Date.now() + 6000; }; });
-      $(".bn-arr.prev").onclick = function () { go(cur - 1); resumeAt = Date.now() + 6000; };
-      $(".bn-arr.next").onclick = function () { go(cur + 1); resumeAt = Date.now() + 6000; };
+      dots.forEach(function (d, k) { d.onclick = function () { go(k); resumeAt = Date.now() + 3000; }; });
+      $(".bn-arr.prev").onclick = function () { go(cur - 1); resumeAt = Date.now() + 3000; };
+      $(".bn-arr.next").onclick = function () { go(cur + 1); resumeAt = Date.now() + 3000; };
       // Khách vuốt hoặc cuộn banner bằng tay: chờ vài giây rồi mới tự chạy tiếp
-      ["touchstart", "wheel", "pointerdown"].forEach(function (ev) { track.addEventListener(ev, function () { resumeAt = Date.now() + 8000; }, { passive: true }); });
+      ["touchstart", "wheel", "pointerdown"].forEach(function (ev) { track.addEventListener(ev, function () { resumeAt = Date.now() + 4000; }, { passive: true }); });
       var toggle = $(".bn-pause");
       toggle.onclick = function () { paused = !paused; toggle.classList.toggle("is-paused", paused); toggle.setAttribute("aria-label", paused ? "Chạy banner tự động" : "Tạm dừng banner"); toggle.setAttribute("aria-pressed", paused ? "true" : "false"); };
       if (n > 1) timer = setInterval(function () { if (!paused && !document.hidden && Date.now() >= resumeAt) go(cur + 1); }, INTERVAL);
