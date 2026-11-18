@@ -577,3 +577,13 @@ h1, h2, h3, h4 { letter-spacing: 0; }
   .bn-text { padding: 48px clamp(32px, 6vw, 96px) 64px; }
   .bn-arr { display: grid; }
 }
+
+/* Banner ảnh thiết kế sẵn (Canva), tỉ lệ cố định */
+.bn { background: var(--ivory-2); }
+.bn-slide { display: block; aspect-ratio: 1600 / 690; background: var(--ivory-2); }
+.bn-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bn-dots { bottom: 6px; }
+.bn-dots button::after { background: rgba(24, 50, 47, .35); }
+.bn-dots button.on::after { background: var(--green); }
+@media (max-width: 799px) { .bn-dots { bottom: 0; } .bn-dots button { height: 28px; } }
+@media (min-width: 800px) { .bn-slide { min-height: 0; } }

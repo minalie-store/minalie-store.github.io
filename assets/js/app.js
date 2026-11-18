@@ -219,12 +219,14 @@
     var gram = []; P.forEach(function (p) { p.colors.forEach(function (c) { (c.images || []).forEach(function (im) { if (gram.indexOf(im) < 0) gram.push(im); }); }); });
     gram = gram.slice(0, 6);
     var ig = gram.map(function (im) { return '<a href="' + C.instagram + '" target="_blank" rel="noopener" aria-label="Xem trên Instagram"><img loading="lazy" src="' + im + '" alt=""></a>'; }).join("");
-    var themes = ["g", "r", "b", "g2"];
-    var slides = listEntries("moi-nhat");
-    var banner = slides.length ? '<section class="bn" aria-roledescription="carousel" aria-label="Mẫu mới"><div class="bn-track" id="bn-track">' + slides.map(function (e, i) {
-      var p = e.p, m = e.m, pr = priceFor(m, p.colors[0].id), img = firstImage(p);
-      return '<a class="bn-slide th-' + themes[i % 4] + '" role="group" aria-roledescription="slide" aria-label="' + (i + 1) + " / " + slides.length + '" href="san-pham.html?id=' + p.id + "&mode=" + m.id + '"><div class="bn-text"><span class="bn-tag">' + (isPre(p) ? "Đặt trước" : "Mẫu mới") + '</span><h2>' + esc(p.name + (m.suffix ? " – " + m.suffix : "")) + "</h2><p>" + esc(p.summary) + '</p><span class="bn-price">' + fmt(pr.now) + '</span><span class="btn light">Xem ngay</span></div><div class="bn-pic">' + (img ? '<img ' + (i ? 'loading="lazy" ' : "") + 'src="' + img + '" alt="' + esc(p.name) + '">' : "") + "</div></a>";
-    }).join("") + '</div><button class="bn-arr prev" type="button" aria-label="Banner trước">‹</button><button class="bn-arr next" type="button" aria-label="Banner sau">›</button><div class="bn-dots" id="bn-dots">' + slides.map(function (e, i) { return '<button type="button" aria-label="Chuyển đến banner ' + (i + 1) + '"></button>'; }).join("") + "</div></section>" : "";
+    var slides = [
+      { img: "images/banner/new-collection-1.jpg", href: "moi-nhat.html", alt: "Bộ sưu tập mới Minalie: áo dài Nhiên, Elise Dress, Marine Set" },
+      { img: "images/banner/new-collection-marine.jpg", href: "san-pham.html?id=marine-set", alt: "Marine Set, bộ sưu tập mới Minalie" },
+      { img: "images/banner/new-collection-elise.jpg", href: "san-pham.html?id=elise-dress", alt: "Elise Dress, bộ sưu tập mới Minalie" }
+    ];
+    var banner = '<section class="bn" aria-roledescription="carousel" aria-label="Bộ sưu tập mới"><div class="bn-track" id="bn-track">' + slides.map(function (sl, i) {
+      return '<a class="bn-slide" role="group" aria-roledescription="slide" aria-label="' + (i + 1) + " / " + slides.length + '" href="' + sl.href + '"><img ' + (i ? 'loading="lazy" ' : "") + 'src="' + sl.img + '" alt="' + esc(sl.alt) + '" width="1600" height="690"></a>';
+    }).join("") + '</div><button class="bn-arr prev" type="button" aria-label="Banner trước">‹</button><button class="bn-arr next" type="button" aria-label="Banner sau">›</button><div class="bn-dots" id="bn-dots">' + slides.map(function (e, i) { return '<button type="button" aria-label="Chuyển đến banner ' + (i + 1) + '"></button>'; }).join("") + "</div></section>";
     app().innerHTML = '<div class="rt">' + banner +
       '<section class="rt-hero" aria-label="Nổi bật">' +
       '<a class="rt-tile" href="san-pham.html?id=' + feat.id + '"><img src="' + firstImage(feat) + '" alt="Elise Dress màu trắng kem"><div class="rt-over"><p class="rt-k">Bộ sưu tập mới · 2026</p><h1>Elegance in Ease.</h1><p class="rt-s">Thanh lịch trong sự thoải mái.</p><span class="btn light">Mua Elise Dress</span></div></a>' +
