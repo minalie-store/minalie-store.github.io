@@ -587,3 +587,29 @@ h1, h2, h3, h4 { letter-spacing: 0; }
 .bn-dots button.on::after { background: var(--green); }
 @media (max-width: 799px) { .bn-dots { bottom: 0; } .bn-dots button { height: 28px; } }
 @media (min-width: 800px) { .bn-slide { min-height: 0; } }
+
+/* ===== Logo theo ảnh nhận diện: biểu tượng + chữ MINALIE màu hồng đồng trên nền xanh rêu (bỏ EST.1995) ===== */
+.announce { background: var(--rose); color: var(--green); font-weight: 500; }
+.header { background: var(--green); color: var(--ivory); border-bottom: 1px solid rgba(255, 255, 255, .08); }
+.header :focus-visible { outline-color: var(--ivory); }
+.header .nav > a, .header .nav > .has-sub > a, .header .nav button { color: var(--ivory); }
+.header .nav > a::after, .header .has-sub > a::after { background: var(--rose); }
+.header .icon-btn { color: var(--ivory); }
+.header .icon-btn:hover { background: rgba(255, 255, 255, .1); }
+.header .badge { background: var(--rose); color: var(--green); }
+.header .sub { background: var(--ivory); }
+.logo { display: block; padding: 0; line-height: 0; font-size: 0; letter-spacing: 0; }
+.logo-img { height: 54px; width: auto; display: block; }
+.header .bar { height: 80px; }
+@media (min-width: 1100px) {
+  .header .bar { height: 96px; }
+  .logo-img { height: 72px; }
+  .nav a, .nav button { height: 96px; }
+  .sub { top: 96px; }
+  #open-search { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .3); }
+  #open-search .sl { color: #d9d0c2; }
+}
+.footer .flogo { display: block; }
+.footer .flogo img { width: 150px; height: auto; }
+.fword { display: block; margin-top: 40px; padding: 0 0 28px; text-align: center; font-size: 0; }
+.fword img { width: min(86vw, 720px); height: auto; margin: 0 auto; }
