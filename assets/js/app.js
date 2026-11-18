@@ -242,26 +242,52 @@
     $$(".rt-arr").forEach(function (b) { b.onclick = function () { rail.scrollBy({ left: (b.classList.contains("next") ? 1 : -1) * rail.clientWidth * 0.8, behavior: "smooth" }); }; });
     var track = $("#bn-track");
     if (track) {
-      var dots = $$("#bn-dots button"), n = dots.length, cur = 0, timer = null, paused = false, resumeAt = 0, INTERVAL = 2000;
-      var reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-      var go = function (i) {
-        cur = (i + n) % n;
-        var target = cur * track.clientWidth;
-        track.scrollTo({ left: target, behavior: reduceMotion ? "auto" : "smooth" });
-        setTimeout(function () { if (Math.abs(track.scrollLeft - target) > 3 && Math.round(track.scrollLeft / track.clientWidth) !== cur) track.scrollLeft = target; }, 1000);
+      if (window.__bnTimer) clearTimeout(window.__bnTimer);
+      var dots = $$("#bn-dots button"), n = dots.length, cur = 0, timer = null, paused = false, busy = false;
+      var HOLD = 3000, SLIDE = 1100;
+      // Bản sao ảnh đầu đặt cuối hàng để banner luôn trượt một chiều, từ phải sang trái, rồi quay lại ảnh đầu không giật
+      var firstSlide = track.firstElementChild;
+      if (firstSlide && n > 1) { var clone = firstSlide.cloneNode(true); clone.setAttribute("aria-hidden", "true"); clone.setAttribute("tabindex", "-1"); clone.removeAttribute("role"); track.appendChild(clone); }
+      var width = function () { return track.clientWidth || 1; };
+      var mark = function () { var i = Math.round(track.scrollLeft / width()) % n; if (!busy) cur = i; dots.forEach(function (d, k) { d.classList.toggle("on", k === i); d.setAttribute("aria-current", k === i ? "true" : "false"); }); };
+      var ease = function (k) { return k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; };
+      var schedule = function (ms) {
+        if (timer) clearTimeout(timer); timer = null;
+        if (n < 2) return;
+        timer = setTimeout(function () { if (!paused && !document.hidden && !busy) next(); else schedule(500); }, ms || HOLD);
+        window.__bnTimer = timer;
       };
-      var mark = function () { var i = Math.round(track.scrollLeft / track.clientWidth); cur = i; dots.forEach(function (d, k) { d.classList.toggle("on", k === i); d.setAttribute("aria-current", k === i ? "true" : "false"); }); };
+      // Trượt mượt bằng requestAnimationFrame (không phụ thuộc cài đặt cuộn của trình duyệt)
+      var slideTo = function (idx) {
+        if (busy) return;
+        busy = true;
+        var from = track.scrollLeft, to = idx * width(), t0 = null;
+        track.style.scrollSnapType = "none";
+        var step = function (t) {
+          if (t0 === null) t0 = t;
+          var k = Math.min(1, (t - t0) / SLIDE);
+          track.scrollLeft = from + (to - from) * ease(k);
+          if (k < 1) { requestAnimationFrame(step); return; }
+          busy = false;
+          if (idx >= n) { track.scrollLeft = 0; idx = 0; }
+          cur = idx;
+          track.style.scrollSnapType = "";
+          mark(); schedule(HOLD);
+        };
+        requestAnimationFrame(step);
+      };
+      var next = function () { slideTo(cur + 1); };
+      var prev = function () { if (busy) return; if (cur === 0) { track.scrollLeft = n * width(); cur = n; } slideTo(cur - 1); };
       track.addEventListener("scroll", mark, { passive: true });
-      dots.forEach(function (d, k) { d.onclick = function () { go(k); resumeAt = Date.now() + 3000; }; });
-      $(".bn-arr.prev").onclick = function () { go(cur - 1); resumeAt = Date.now() + 3000; };
-      $(".bn-arr.next").onclick = function () { go(cur + 1); resumeAt = Date.now() + 3000; };
-      // Khách vuốt hoặc cuộn banner bằng tay: chờ vài giây rồi mới tự chạy tiếp
-      ["touchstart", "wheel", "pointerdown"].forEach(function (ev) { track.addEventListener(ev, function () { resumeAt = Date.now() + 4000; }, { passive: true }); });
+      dots.forEach(function (d, k) { d.onclick = function () { slideTo(k); }; });
+      $(".bn-arr.prev").onclick = prev;
+      $(".bn-arr.next").onclick = next;
+      // Khách tự vuốt hoặc cuộn banner: chờ rồi mới tự chạy tiếp
+      ["touchstart", "wheel", "pointerdown"].forEach(function (ev) { track.addEventListener(ev, function () { schedule(HOLD + 1500); }, { passive: true }); });
       var toggle = $(".bn-pause");
       toggle.onclick = function () { paused = !paused; toggle.classList.toggle("is-paused", paused); toggle.setAttribute("aria-label", paused ? "Chạy banner tự động" : "Tạm dừng banner"); toggle.setAttribute("aria-pressed", paused ? "true" : "false"); };
-      if (n > 1) timer = setInterval(function () { if (!paused && !document.hidden && Date.now() >= resumeAt) go(cur + 1); }, INTERVAL);
-      window.addEventListener("resize", function () { track.scrollLeft = cur * track.clientWidth; });
-      mark();
+      window.addEventListener("resize", function () { if (!busy) track.scrollLeft = cur * width(); });
+      mark(); schedule(HOLD);
     }
   }
 
@@ -529,17 +555,22 @@
   }
 
   /* ---------- khởi động ---------- */
-  function route() {
+  function route(keepScroll) {
     var pg = document.body.getAttribute("data-page");
     ({ home: pageHome, category: pageCategory, news: pageNew, collections: pageCollections, product: pagePDP, cart: pageCart, checkout: pageCheckout, about: pageAbout, contact: pageContact, policy: pagePolicy, privacy: pagePrivacy }[pg] || pageHome)();
-    window.scrollTo(0, 0);
+    if (!keepScroll) window.scrollTo(0, 0);
     initFx();
   }
   renderChrome();
   route();
   if (C.stockEndpoint) {
     fetch(C.stockEndpoint).then(function (r) { return r.json(); }).then(function (j) {
-      if (j && j.stock) { Object.keys(j.stock).forEach(function (k) { STOCK[k] = j.stock[k]; }); var sel = S.size; route(); void sel; }
+      if (j && j.stock) {
+        // Chỉ dựng lại trang khi tồn kho thật sự khác bản có sẵn, để banner và vị trí cuộn không bị giật
+        var changed = Object.keys(j.stock).some(function (k) { return JSON.stringify(STOCK[k]) !== JSON.stringify(j.stock[k]); });
+        Object.keys(j.stock).forEach(function (k) { STOCK[k] = j.stock[k]; });
+        if (changed) route(true);
+      }
     }).catch(function () { /* giữ tồn kho tĩnh */ });
   }
 })();
