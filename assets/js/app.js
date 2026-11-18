@@ -219,7 +219,13 @@
     var gram = []; P.forEach(function (p) { p.colors.forEach(function (c) { (c.images || []).forEach(function (im) { if (gram.indexOf(im) < 0) gram.push(im); }); }); });
     gram = gram.slice(0, 6);
     var ig = gram.map(function (im) { return '<a href="' + C.instagram + '" target="_blank" rel="noopener" aria-label="Xem trên Instagram"><img loading="lazy" src="' + im + '" alt=""></a>'; }).join("");
-    app().innerHTML = '<div class="rt">' +
+    var themes = ["g", "r", "b", "g2"];
+    var slides = listEntries("moi-nhat");
+    var banner = slides.length ? '<section class="bn" aria-roledescription="carousel" aria-label="Mẫu mới"><div class="bn-track" id="bn-track">' + slides.map(function (e, i) {
+      var p = e.p, m = e.m, pr = priceFor(m, p.colors[0].id), img = firstImage(p);
+      return '<a class="bn-slide th-' + themes[i % 4] + '" role="group" aria-roledescription="slide" aria-label="' + (i + 1) + " / " + slides.length + '" href="san-pham.html?id=' + p.id + "&mode=" + m.id + '"><div class="bn-text"><span class="bn-tag">' + (isPre(p) ? "Đặt trước" : "Mẫu mới") + '</span><h2>' + esc(p.name + (m.suffix ? " – " + m.suffix : "")) + "</h2><p>" + esc(p.summary) + '</p><span class="bn-price">' + fmt(pr.now) + '</span><span class="btn light">Xem ngay</span></div><div class="bn-pic">' + (img ? '<img ' + (i ? 'loading="lazy" ' : "") + 'src="' + img + '" alt="' + esc(p.name) + '">' : "") + "</div></a>";
+    }).join("") + '</div><button class="bn-arr prev" type="button" aria-label="Banner trước">‹</button><button class="bn-arr next" type="button" aria-label="Banner sau">›</button><div class="bn-dots" id="bn-dots">' + slides.map(function (e, i) { return '<button type="button" aria-label="Chuyển đến banner ' + (i + 1) + '"></button>'; }).join("") + "</div></section>" : "";
+    app().innerHTML = '<div class="rt">' + banner +
       '<section class="rt-hero" aria-label="Nổi bật">' +
       '<a class="rt-tile" href="san-pham.html?id=' + feat.id + '"><img src="' + firstImage(feat) + '" alt="Elise Dress màu trắng kem"><div class="rt-over"><p class="rt-k">Bộ sưu tập mới · 2026</p><h1>Elegance in Ease.</h1><p class="rt-s">Thanh lịch trong sự thoải mái.</p><span class="btn light">Mua Elise Dress</span></div></a>' +
       '<a class="rt-tile" href="san-pham.html?id=' + mar.id + '"><img src="' + firstImage(mar) + '" alt="Marine Set màu xanh than"><div class="rt-over"><p class="rt-k">Bộ áo và quần đũi tre</p><h2>Marine Set</h2><p class="rt-s">Nhẹ, thoáng, chỉn chu cả ngày.</p><span class="btn light">Mua Marine Set</span></div></a></section>' +
@@ -232,6 +238,24 @@
       '<section class="rt-ig"><div class="wrap"><h2>Theo dõi Minalie trên Instagram</h2><p>@minali.store.official</p><div class="rt-igrid">' + ig + '</div><a class="btn ghost" href="' + C.instagram + '" target="_blank" rel="noopener">Theo dõi</a></div></section></div>';
     var rail = $("#rt-rail");
     $$(".rt-arr").forEach(function (b) { b.onclick = function () { rail.scrollBy({ left: (b.classList.contains("next") ? 1 : -1) * rail.clientWidth * 0.8, behavior: "smooth" }); }; });
+    var track = $("#bn-track");
+    if (track) {
+      var dots = $$("#bn-dots button"), n = dots.length, cur = 0, timer = null, held = false;
+      var reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var go = function (i) { cur = (i + n) % n; track.scrollTo({ left: cur * track.clientWidth, behavior: reduceMotion ? "auto" : "smooth" }); };
+      var mark = function () { var i = Math.round(track.scrollLeft / track.clientWidth); cur = i; dots.forEach(function (d, k) { d.classList.toggle("on", k === i); d.setAttribute("aria-current", k === i ? "true" : "false"); }); };
+      track.addEventListener("scroll", mark, { passive: true });
+      dots.forEach(function (d, k) { d.onclick = function () { go(k); }; });
+      $(".bn-arr.prev").onclick = function () { go(cur - 1); };
+      $(".bn-arr.next").onclick = function () { go(cur + 1); };
+      var start = function () { stop(); if (!reduceMotion && n > 1) timer = setInterval(function () { if (!held && !document.hidden) go(cur + 1); }, 5000); };
+      var stop = function () { if (timer) clearInterval(timer); timer = null; };
+      var bn = $(".bn");
+      ["mouseenter", "focusin", "touchstart"].forEach(function (ev) { bn.addEventListener(ev, function () { held = true; }, { passive: true }); });
+      ["mouseleave", "focusout", "touchend"].forEach(function (ev) { bn.addEventListener(ev, function () { held = false; }, { passive: true }); });
+      window.addEventListener("resize", function () { track.scrollLeft = cur * track.clientWidth; });
+      mark(); start();
+    }
   }
 
   /* ---------- danh mục, bộ sưu tập ---------- */
