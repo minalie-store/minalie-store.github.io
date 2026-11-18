@@ -161,14 +161,14 @@
     $("#site-header").innerHTML =
       '<div class="announce">Miễn phí vận chuyển cho đơn từ ' + fmt(C.freeShipFrom) + " và đơn chuyển khoản · Đổi hàng trong 3 ngày</div>" +
       '<header class="header"><div class="bar"><div class="left"><button class="icon-btn menu-btn" id="open-menu" aria-label="Mở menu">' + ICON.menu + '</button><nav class="nav" aria-label="Chính">' + nav + '</nav></div>' +
-      '<a class="logo" href="index.html" aria-label="Minalie, về trang chủ">Minalie</a>' +
+      '<a class="logo" href="index.html" aria-label="Minalie, về trang chủ"><img class="logo-ico" src="images/brand/logo-icon.png" alt="" width="30" height="31"><span>Minalie</span></a>' +
       '<div class="right"><button class="icon-btn" id="open-search" aria-label="Tìm kiếm">' + ICON.search + '</button>' +
       '<a class="icon-btn" href="danh-muc.html?nhom=yeu-thich" aria-label="Yêu thích">' + ICON.heart + '<span class="badge" id="wish-count" style="display:none">0</span></a>' +
       '<a class="icon-btn" href="gio-hang.html" aria-label="Giỏ hàng">' + ICON.bag + '<span class="badge" id="cart-count" style="display:none">0</span></a></div></div></header>' +
       '<div class="scrim" id="scrim"></div><aside class="drawer" id="drawer" aria-label="Menu"><button class="icon-btn close" id="close-menu" aria-label="Đóng menu">' + ICON.close + "</button><div style=\"height:44px\"></div>" + drawer + "</aside>" +
       '<div class="search-panel" id="search-panel" role="dialog" aria-label="Tìm kiếm"><div class="field"><input id="search-input" type="search" placeholder="Tìm sản phẩm" autocomplete="off"><button class="icon-btn" id="close-search" aria-label="Đóng tìm kiếm">' + ICON.close + '</button></div><div class="results" id="search-results"></div></div>';
     $("#site-footer").innerHTML =
-      '<footer class="footer"><div class="wrap"><div class="cols"><div><div class="flogo">Minalie</div><p>' + esc(C.slogan) + " " + esc(C.sloganVi) + '</p><p style="font-size:14px">Thời trang nữ thiết kế cho người làm việc bằng tri thức.</p></div>' +
+      '<footer class="footer"><div class="wrap"><div class="cols"><div><div class="flogo"><img class="logo-ico" src="images/brand/logo-icon.png" alt="" width="40" height="42"><span>Minalie</span></div><p>' + esc(C.slogan) + " " + esc(C.sloganVi) + '</p><p style="font-size:14px">Thời trang nữ thiết kế cho người làm việc bằng tri thức.</p></div>' +
       '<div><h4>Khám phá</h4><a href="moi-nhat.html">Mới nhất</a><a href="bo-suu-tap.html">Bộ sưu tập</a><a href="danh-muc.html">Trang phục</a><a href="gioi-thieu.html">Giới thiệu</a></div>' +
       '<div><h4>Hỗ trợ</h4><a href="doi-tra.html">Đổi hàng, giao hàng và thanh toán</a><a href="chinh-sach-bao-mat.html">Chính sách bảo mật</a><a href="lien-he.html">Liên hệ</a><a href="gio-hang.html">Giỏ hàng</a></div>' +
       '<div><h4>Liên hệ</h4><a href="' + C.hotlineHref + '">Hotline: ' + C.hotline + '</a><a href="' + C.zalo + '" target="_blank" rel="noopener">Zalo: ' + C.hotline + '</a><a href="mailto:' + C.email + '">' + C.email + "</a><span style=\"font-size:14.5px;display:block;padding:4px 0\">" + C.address + '</span><a href="' + C.fanpage + '" target="_blank" rel="noopener">Facebook</a><a href="' + C.instagram + '" target="_blank" rel="noopener">Instagram</a><a href="' + C.shopee + '" target="_blank" rel="noopener">Shopee</a></div></div>' +
