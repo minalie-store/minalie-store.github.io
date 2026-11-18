@@ -46,7 +46,7 @@ p { margin: 0 0 1em; }
 .header .right { justify-content: flex-end; }
 .logo { font-family: var(--serif); font-weight: 500; font-size: 26px; letter-spacing: .3em; padding-left: .3em; text-transform: uppercase; color: var(--green); text-align: center; line-height: 1; }
 .logo { display: inline-flex; align-items: center; justify-content: center; gap: 12px; }
-.logo-ico { height: 30px; width: auto; display: block; flex: none; }
+.logo-ico { height: 30px; aspect-ratio: 260 / 270; display: block; flex: none; background-color: currentColor; -webkit-mask: url(../../images/brand/logo-icon.png) center / contain no-repeat; mask: url(../../images/brand/logo-icon.png) center / contain no-repeat; }
 .footer .flogo { display: flex; align-items: center; gap: 14px; }
 .footer .flogo .logo-ico { height: 42px; }
 @media (max-width: 1099px) { .logo-ico { height: 26px; } .logo { gap: 9px; } }
