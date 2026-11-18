@@ -226,7 +226,7 @@
     ];
     var banner = '<section class="bn" aria-roledescription="carousel" aria-label="Bộ sưu tập mới"><div class="bn-track" id="bn-track">' + slides.map(function (sl, i) {
       return '<a class="bn-slide" role="group" aria-roledescription="slide" aria-label="' + (i + 1) + " / " + slides.length + '" href="' + sl.href + '"><img ' + (i ? 'loading="lazy" ' : "") + 'src="' + sl.img + '" alt="' + esc(sl.alt) + '" width="1600" height="690"></a>';
-    }).join("") + '</div><button class="bn-arr prev" type="button" aria-label="Banner trước">‹</button><button class="bn-arr next" type="button" aria-label="Banner sau">›</button><div class="bn-dots" id="bn-dots">' + slides.map(function (e, i) { return '<button type="button" aria-label="Chuyển đến banner ' + (i + 1) + '"></button>'; }).join("") + "</div></section>";
+    }).join("") + '</div><button class="bn-arr prev" type="button" aria-label="Banner trước">‹</button><button class="bn-arr next" type="button" aria-label="Banner sau">›</button><button class="bn-pause" type="button" aria-label="Tạm dừng banner" aria-pressed="false"><span aria-hidden="true"></span></button><div class="bn-dots" id="bn-dots">' + slides.map(function (e, i) { return '<button type="button" aria-label="Chuyển đến banner ' + (i + 1) + '"></button>'; }).join("") + "</div></section>";
     app().innerHTML = '<div class="rt">' + banner +
       '<section class="rt-hero" aria-label="Nổi bật">' +
       '<a class="rt-tile" href="san-pham.html?id=' + feat.id + '"><img src="' + firstImage(feat) + '" alt="Elise Dress màu trắng kem"><div class="rt-over"><p class="rt-k">Bộ sưu tập mới · 2026</p><h1>Elegance in Ease.</h1><p class="rt-s">Thanh lịch trong sự thoải mái.</p><span class="btn light">Mua Elise Dress</span></div></a>' +
@@ -242,21 +242,26 @@
     $$(".rt-arr").forEach(function (b) { b.onclick = function () { rail.scrollBy({ left: (b.classList.contains("next") ? 1 : -1) * rail.clientWidth * 0.8, behavior: "smooth" }); }; });
     var track = $("#bn-track");
     if (track) {
-      var dots = $$("#bn-dots button"), n = dots.length, cur = 0, timer = null, held = false;
+      var dots = $$("#bn-dots button"), n = dots.length, cur = 0, timer = null, paused = false, resumeAt = 0, INTERVAL = 4500;
       var reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-      var go = function (i) { cur = (i + n) % n; track.scrollTo({ left: cur * track.clientWidth, behavior: reduceMotion ? "auto" : "smooth" }); };
+      var go = function (i) {
+        cur = (i + n) % n;
+        var target = cur * track.clientWidth;
+        track.scrollTo({ left: target, behavior: reduceMotion ? "auto" : "smooth" });
+        setTimeout(function () { if (Math.abs(track.scrollLeft - target) > 3 && Math.round(track.scrollLeft / track.clientWidth) !== cur) track.scrollLeft = target; }, 1000);
+      };
       var mark = function () { var i = Math.round(track.scrollLeft / track.clientWidth); cur = i; dots.forEach(function (d, k) { d.classList.toggle("on", k === i); d.setAttribute("aria-current", k === i ? "true" : "false"); }); };
       track.addEventListener("scroll", mark, { passive: true });
-      dots.forEach(function (d, k) { d.onclick = function () { go(k); }; });
-      $(".bn-arr.prev").onclick = function () { go(cur - 1); };
-      $(".bn-arr.next").onclick = function () { go(cur + 1); };
-      var start = function () { stop(); if (!reduceMotion && n > 1) timer = setInterval(function () { if (!held && !document.hidden) go(cur + 1); }, 5000); };
-      var stop = function () { if (timer) clearInterval(timer); timer = null; };
-      var bn = $(".bn");
-      ["mouseenter", "focusin", "touchstart"].forEach(function (ev) { bn.addEventListener(ev, function () { held = true; }, { passive: true }); });
-      ["mouseleave", "focusout", "touchend"].forEach(function (ev) { bn.addEventListener(ev, function () { held = false; }, { passive: true }); });
+      dots.forEach(function (d, k) { d.onclick = function () { go(k); resumeAt = Date.now() + 6000; }; });
+      $(".bn-arr.prev").onclick = function () { go(cur - 1); resumeAt = Date.now() + 6000; };
+      $(".bn-arr.next").onclick = function () { go(cur + 1); resumeAt = Date.now() + 6000; };
+      // Khách vuốt hoặc cuộn banner bằng tay: chờ vài giây rồi mới tự chạy tiếp
+      ["touchstart", "wheel", "pointerdown"].forEach(function (ev) { track.addEventListener(ev, function () { resumeAt = Date.now() + 8000; }, { passive: true }); });
+      var toggle = $(".bn-pause");
+      toggle.onclick = function () { paused = !paused; toggle.classList.toggle("is-paused", paused); toggle.setAttribute("aria-label", paused ? "Chạy banner tự động" : "Tạm dừng banner"); toggle.setAttribute("aria-pressed", paused ? "true" : "false"); };
+      if (n > 1) timer = setInterval(function () { if (!paused && !document.hidden && Date.now() >= resumeAt) go(cur + 1); }, INTERVAL);
       window.addEventListener("resize", function () { track.scrollLeft = cur * track.clientWidth; });
-      mark(); start();
+      mark();
     }
   }
 
