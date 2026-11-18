@@ -431,7 +431,7 @@ table.tbl { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 
 .footer a { display: block; padding: 8px 0; min-height: 40px; color: #e0d9cb; font-size: 15px; }
 .footer a:hover { color: var(--ivory); text-decoration: underline; text-underline-offset: 4px; }
 .footer .flogo { font-family: var(--serif); font-size: 34px; letter-spacing: .3em; color: var(--ivory); margin-bottom: 8px; }
-.fword { display: flex; flex-direction: column; align-items: center; gap: .08em; font-family: var(--serif); font-size: clamp(88px, 24vw, 340px); line-height: .8; color: var(--rose); white-space: nowrap; margin-top: 56px; padding-top: .1em; letter-spacing: -.01em; font-style: italic; text-align: center; }
+.fword { display: flex; flex-direction: column; align-items: center; gap: .3em; font-family: "Playfair Display", Georgia, serif; font-weight: 400; font-size: clamp(40px, 9.5vw, 130px); line-height: 1; color: var(--rose); white-space: nowrap; margin-top: 56px; padding-bottom: .5em; letter-spacing: .2em; padding-left: .2em; text-transform: uppercase; font-style: normal; text-align: center; }
 .footer .legal { border-top: 1px solid rgba(242, 237, 229, .2); margin-top: 28px; padding: 18px 0 24px; font-size: 13px; color: #cfc7b8; }
 .zalo { position: fixed; right: 16px; bottom: 16px; z-index: 40; width: 52px; height: 52px; border-radius: 50%; background: var(--green); color: var(--ivory); border: 2px solid var(--rose); display: grid; place-items: center; font-size: 12px; font-weight: 600; letter-spacing: .04em; box-shadow: 0 8px 20px rgba(24, 50, 47, .3); }
 .toast { position: fixed; left: 50%; bottom: 84px; transform: translate(-50%, 20px); background: var(--green); color: var(--ivory); padding: 14px 22px; font-size: 14.5px; opacity: 0; pointer-events: none; transition: .3s; z-index: 130; max-width: 90vw; border-left: 4px solid var(--rose); }
@@ -449,5 +449,10 @@ table.tbl { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 
 .thoughtful h2 em { color: var(--brown); }
 .thoughtful p { font-family: var(--serif); font-size: clamp(21px, 2.5vw, 30px); line-height: 1.45; color: var(--ink, #1f2b29); max-width: 40ch; margin: 0; }
 
-.fword .logo-ico { height: clamp(64px, 12vw, 170px); }
+.fword .logo-ico { height: 2.4em; }
 .fword .fw-t { display: block; }
+
+.logo, .footer .flogo { font-family: "Playfair Display", Georgia, serif; font-weight: 400; }
+.logo { font-size: 20px; letter-spacing: .24em; padding-left: .24em; }
+.footer .flogo { font-size: 26px; letter-spacing: .24em; padding-left: .24em; color: var(--rose); text-transform: uppercase; }
+@media (max-width: 1099px) { .logo { font-size: 17px; letter-spacing: .22em; padding-left: .22em; } }
