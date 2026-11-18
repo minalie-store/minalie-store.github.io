@@ -13,7 +13,7 @@ window.CONFIG = {
   address: "Hà Đông, Hà Nội",
   bank: { name: "Techcombank", number: "0698 6986 94", holder: "Phạm Thị Nga" },
   shipFee: 25000,
-  freeShipFrom: 999000,
+  freeShipFrom: 449000,
   // Giá mua sớm áo dài Nhiên: đến hết 23:59 ngày 10/11/2026. Mở bán chính thức lúc 20:00 ngày 5/11/2026.
   earlyDeadline: "2026-11-10T23:59:59+07:00",
   launchAt: "2026-11-05T20:00:00+07:00",
