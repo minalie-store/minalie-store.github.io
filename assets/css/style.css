@@ -41,31 +41,31 @@ p { margin: 0 0 1em; }
 /* Announcement + header */
 .announce { background: var(--green); color: var(--ivory); text-align: center; font-size: 12px; letter-spacing: .06em; padding: 9px var(--gutter); }
 .header { background: var(--ivory); color: var(--green); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); }
-.header .bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 72px; max-width: 1480px; margin: 0 auto; padding: 0 var(--gutter); }
+.header .bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 88px; max-width: 1480px; margin: 0 auto; padding: 0 var(--gutter); }
 .header .left, .header .right { display: flex; align-items: center; gap: 2px; }
 .header .right { justify-content: flex-end; }
 .logo { font-family: var(--serif); font-weight: 500; font-size: 26px; letter-spacing: .3em; padding-left: .3em; text-transform: uppercase; color: var(--green); text-align: center; line-height: 1; }
-.logo { display: inline-flex; align-items: center; justify-content: center; gap: 12px; }
+.logo { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; }
 .logo-ico { height: 30px; aspect-ratio: 260 / 270; display: block; flex: none; background-color: currentColor; -webkit-mask: url(../../images/brand/logo-icon.png) center / contain no-repeat; mask: url(../../images/brand/logo-icon.png) center / contain no-repeat; }
-.footer .flogo { display: flex; align-items: center; gap: 14px; }
+.footer .flogo { display: inline-flex; flex-direction: column; align-items: center; gap: 10px; }
 .footer .flogo .logo-ico { height: 42px; }
-@media (max-width: 1099px) { .logo-ico { height: 26px; } .logo { gap: 9px; } }
+@media (max-width: 1099px) { .logo-ico { height: 24px; } .logo { gap: 6px; } }
 .icon-btn { background: none; border: 0; width: 44px; height: 44px; display: inline-grid; place-items: center; color: var(--green); position: relative; border-radius: 50%; transition: background .2s; }
 .icon-btn:hover { background: rgba(24, 50, 47, .08); }
 .icon-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .badge { position: absolute; top: 3px; right: 1px; min-width: 18px; height: 18px; border-radius: 9px; background: var(--green); color: var(--ivory); font-size: 10.5px; font-weight: 600; display: grid; place-items: center; padding: 0 4px; }
 .nav { display: none; }
-.nav a, .nav button { background: none; border: 0; padding: 0 11px; height: 72px; display: inline-flex; align-items: center; font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--green); position: relative; }
+.nav a, .nav button { background: none; border: 0; padding: 0 11px; height: 88px; display: inline-flex; align-items: center; font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--green); position: relative; }
 .nav > a::after, .has-sub > a::after { content: ""; position: absolute; left: 11px; right: 11px; bottom: 22px; height: 1px; background: var(--green); transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ease); }
 .nav > a:hover::after, .has-sub:hover > a::after { transform: scaleX(1); }
 .has-sub { position: relative; display: inline-block; }
-.sub { position: absolute; top: 72px; left: 0; background: var(--ivory); color: var(--ink); border: 1px solid var(--green); min-width: 200px; padding: 8px 0; display: none; }
+.sub { position: absolute; top: 88px; left: 0; background: var(--ivory); color: var(--ink); border: 1px solid var(--green); min-width: 200px; padding: 8px 0; display: none; }
 .has-sub:hover .sub, .has-sub:focus-within .sub { display: block; }
 .sub a { height: auto; min-height: 44px; padding: 10px 20px; color: var(--ink); text-transform: none; letter-spacing: .02em; font-size: 15px; display: flex; }
 .sub a:hover { background: var(--green); color: var(--ivory); }
 @media (max-width: 1099px) {
   .logo { font-size: 22px; letter-spacing: .24em; padding-left: .24em; }
-  .header .bar { height: 64px; }
+  .header .bar { height: 76px; }
 }
 @media (min-width: 1100px) { .nav { display: flex; } .menu-btn { display: none; } .header .right { gap: 6px; } }
 
@@ -431,7 +431,7 @@ table.tbl { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 
 .footer a { display: block; padding: 8px 0; min-height: 40px; color: #e0d9cb; font-size: 15px; }
 .footer a:hover { color: var(--ivory); text-decoration: underline; text-underline-offset: 4px; }
 .footer .flogo { font-family: var(--serif); font-size: 34px; letter-spacing: .3em; color: var(--ivory); margin-bottom: 8px; }
-.fword { font-family: var(--serif); font-size: clamp(88px, 24vw, 340px); line-height: .8; color: var(--rose); white-space: nowrap; margin-top: 56px; padding-top: .1em; letter-spacing: -.01em; font-style: italic; text-align: center; }
+.fword { display: flex; flex-direction: column; align-items: center; gap: .08em; font-family: var(--serif); font-size: clamp(88px, 24vw, 340px); line-height: .8; color: var(--rose); white-space: nowrap; margin-top: 56px; padding-top: .1em; letter-spacing: -.01em; font-style: italic; text-align: center; }
 .footer .legal { border-top: 1px solid rgba(242, 237, 229, .2); margin-top: 28px; padding: 18px 0 24px; font-size: 13px; color: #cfc7b8; }
 .zalo { position: fixed; right: 16px; bottom: 16px; z-index: 40; width: 52px; height: 52px; border-radius: 50%; background: var(--green); color: var(--ivory); border: 2px solid var(--rose); display: grid; place-items: center; font-size: 12px; font-weight: 600; letter-spacing: .04em; box-shadow: 0 8px 20px rgba(24, 50, 47, .3); }
 .toast { position: fixed; left: 50%; bottom: 84px; transform: translate(-50%, 20px); background: var(--green); color: var(--ivory); padding: 14px 22px; font-size: 14.5px; opacity: 0; pointer-events: none; transition: .3s; z-index: 130; max-width: 90vw; border-left: 4px solid var(--rose); }
@@ -448,3 +448,6 @@ table.tbl { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 
 .thoughtful h2 { max-width: 14ch; font-size: clamp(38px, 7vw, 92px); line-height: .98; color: var(--green); margin: 12px 0 22px; }
 .thoughtful h2 em { color: var(--brown); }
 .thoughtful p { font-family: var(--serif); font-size: clamp(21px, 2.5vw, 30px); line-height: 1.45; color: var(--ink, #1f2b29); max-width: 40ch; margin: 0; }
+
+.fword .logo-ico { height: clamp(64px, 12vw, 170px); }
+.fword .fw-t { display: block; }
