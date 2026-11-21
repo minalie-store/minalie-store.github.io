@@ -96,7 +96,7 @@ window.PRODUCTS = [
     isNew: false,
     sizes: ["S", "M", "L", "XL"],
     modes: [
-      { id: "set", label: "Cả bộ", groups: ["set"], price: 659000 },
+      { id: "set", label: "Cả bộ", groups: ["set"], price: 649000 },
       { id: "ao", label: "Chỉ áo", groups: ["ao"], price: 499000, suffix: "áo" },
       { id: "quan", label: "Chỉ quần", groups: ["quan"], price: 449000, suffix: "quần" }
     ],
