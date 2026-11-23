@@ -37,14 +37,15 @@ window.STOCK = {
   "QUAN-AD-KHOA":  { S: 0, M: 2, L: 1, XL: 0 },
   "QUAN-AD-CHUN":  { S: 0, M: 2, L: 0, XL: 0 },
   "AO-LEN-KENGANG-TR": { S: 5, M: 5, L: 5, XL: 5 },
-  "AO-LEN-KENGANG-DE": { S: 5, M: 5, L: 5, XL: 5 }
+  "AO-LEN-KENGANG-DE": { S: 5, M: 5, L: 5, XL: 5 },
+  "AO-LEN-POLO-TR": { Freesize: 5 }
 };
 
 window.COLLECTIONS = [
   { id: "elise-dress", name: "Elise Dress", blurb: "Váy tweed dáng suông, cổ sen và cúc bọc vải." },
   { id: "marine-set", name: "Marine Set", blurb: "Bộ áo và quần đũi tre mỏng, nhẹ, thoáng." },
   { id: "ao-dai-nhien", name: "Áo dài Nhiên", blurb: "Áo dài tơ nhăn form suông nhẹ, số lượng rất ít." },
-  { id: "ao-len-ke-ngang", name: "Áo cộc len kẻ ngang", blurb: "Áo len dệt kim kẻ ngang phong cách Paris Chic." }
+  { id: "ao-len-ke-ngang", name: "Áo cộc len kẻ ngang", blurb: "Áo len dệt kim phong cách Paris Chic: kẻ ngang và polo cổ nâu." }
 ];
 
 window.GROUPS = {
@@ -61,6 +62,32 @@ window.GROUPS = {
   - pairCode: mã SP của quần đi kèm khi mua bộ (theo màu).
 */
 window.PRODUCTS = [
+  {
+    id: "ao-len-polo-co-nau",
+    name: "Áo len dệt kim polo cổ nâu",
+    collection: "ao-len-ke-ngang",
+    isNew: true,
+    sizes: ["Freesize"],
+    modes: [{ id: "main", label: "Áo", groups: ["ao"], price: 449000 }],
+    colors: [
+      { id: "trang-co-nau", name: "Trắng cổ nâu", hex: "#f4efe6", code: "AO-LEN-POLO-TR", images: ["images/ao-polo/ao-len-polo-co-nau-trang-01.jpg","images/ao-polo/ao-len-polo-co-nau-trang-02.jpg","images/ao-polo/ao-len-polo-co-nau-trang-03.jpg","images/ao-polo/ao-len-polo-co-nau-trang-04.jpg","images/ao-polo/ao-len-polo-co-nau-trang-05.jpg","images/ao-polo/ao-len-polo-co-nau-trang-06.jpg","images/ao-polo/ao-len-polo-co-nau-trang-07.jpg","images/ao-polo/ao-len-polo-co-nau-trang-08.jpg"] }
+    ],
+    summary: "Áo len dệt kim cộc tay cổ polo bẻ tự do, cổ và viền tay màu nâu trên nền trắng.",
+    highlights: [
+      "Len dệt kim ôm cơ thể, thoáng khí, mềm mại và co giãn tốt.",
+      "Cổ bẻ tự do màu nâu, để lộ xương quai xanh, tạo cảm giác năng động, hiện đại.",
+      "Cổ nâu tạo ranh giới tự nhiên giữa áo và tông da, giúp gương mặt nổi bật.",
+      "Màu trắng cổ nâu sang trọng, thanh lịch, giúp sáng da.",
+      "Freesize: phù hợp người dưới 170cm và dưới 55kg."
+    ],
+    sizeGuide: {
+      type: "table",
+      note: "Freesize, phù hợp người dưới 170cm và dưới 55kg. Độ co giãn 5 – 7cm; số đo lấy thủ công nên có thể chênh 2 – 3cm. Nếu phân vân, vui lòng nhắn Zalo để được tư vấn.",
+      tables: [
+        { title: "Gợi ý chọn size", head: ["Size", "Chiều cao", "Cân nặng"], rows: [["Freesize", "Dưới 170cm", "Dưới 55kg"]] }
+      ]
+    }
+  },
   {
     id: "ao-coc-len-ke-ngang",
     name: "Áo cộc len kẻ ngang",
