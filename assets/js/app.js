@@ -571,8 +571,13 @@
     fetch(C.stockEndpoint).then(function (r) { return r.json(); }).then(function (j) {
       if (j && j.stock) {
         // Chỉ dựng lại trang khi tồn kho thật sự khác bản có sẵn, để banner và vị trí cuộn không bị giật
-        var changed = Object.keys(j.stock).some(function (k) { return JSON.stringify(STOCK[k]) !== JSON.stringify(j.stock[k]); });
-        Object.keys(j.stock).forEach(function (k) { STOCK[k] = j.stock[k]; });
+        // Gộp theo từng size: size nào sheet không trả về (ví dụ Freesize) thì giữ số có sẵn
+        var changed = false;
+        Object.keys(j.stock).forEach(function (k) {
+          var merged = Object.assign({}, STOCK[k], j.stock[k]);
+          if (JSON.stringify(merged) !== JSON.stringify(STOCK[k])) changed = true;
+          STOCK[k] = merged;
+        });
         if (changed) route(true);
       }
     }).catch(function () { /* giữ tồn kho tĩnh */ });
