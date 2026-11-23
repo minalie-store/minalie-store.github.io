@@ -35,13 +35,16 @@ window.STOCK = {
   "AD-NHIEN-XR":   { S: 0, M: 2, L: 0, XL: 0 },
   "AD-NHIEN-HT":   { S: 0, M: 2, L: 1, XL: 0 },
   "QUAN-AD-KHOA":  { S: 0, M: 2, L: 1, XL: 0 },
-  "QUAN-AD-CHUN":  { S: 0, M: 2, L: 0, XL: 0 }
+  "QUAN-AD-CHUN":  { S: 0, M: 2, L: 0, XL: 0 },
+  "AO-LEN-KENGANG-TR": { S: 5, M: 5, L: 5, XL: 5 },
+  "AO-LEN-KENGANG-DE": { S: 5, M: 5, L: 5, XL: 5 }
 };
 
 window.COLLECTIONS = [
   { id: "elise-dress", name: "Elise Dress", blurb: "Váy tweed dáng suông, cổ sen và cúc bọc vải." },
   { id: "marine-set", name: "Marine Set", blurb: "Bộ áo và quần đũi tre mỏng, nhẹ, thoáng." },
-  { id: "ao-dai-nhien", name: "Áo dài Nhiên", blurb: "Áo dài tơ nhăn form suông nhẹ, số lượng rất ít." }
+  { id: "ao-dai-nhien", name: "Áo dài Nhiên", blurb: "Áo dài tơ nhăn form suông nhẹ, số lượng rất ít." },
+  { id: "ao-len-ke-ngang", name: "Áo cộc len kẻ ngang", blurb: "Áo len dệt kim kẻ ngang phong cách Paris Chic." }
 ];
 
 window.GROUPS = {
@@ -58,6 +61,33 @@ window.GROUPS = {
   - pairCode: mã SP của quần đi kèm khi mua bộ (theo màu).
 */
 window.PRODUCTS = [
+  {
+    id: "ao-coc-len-ke-ngang",
+    name: "Áo cộc len kẻ ngang",
+    collection: "ao-len-ke-ngang",
+    isNew: true,
+    sizes: ["S", "M", "L", "XL"],
+    modes: [{ id: "main", label: "Áo", groups: ["ao"], price: 449000 }],
+    colors: [
+      { id: "trang", name: "Trắng", hex: "#f4f1ea", code: "AO-LEN-KENGANG-TR", images: ["images/ao-len/ao-len-ke-ngang-trang-2.jpg", "images/ao-len/ao-len-ke-ngang-trang-1.jpg"] },
+      { id: "den", name: "Đen", hex: "#1c1c1c", code: "AO-LEN-KENGANG-DE", images: ["images/ao-len/ao-len-ke-ngang-den-1.jpg", "images/ao-len/ao-len-ke-ngang-den-2.jpg", "images/ao-len/ao-len-ke-ngang-den-3.jpg"] }
+    ],
+    summary: "Áo len dệt kim cộc tay cổ tròn, họa tiết kẻ ngang phối viền, phong cách Paris Chic.",
+    highlights: [
+      "Len dệt kim mịn, co giãn tốt, giữ form, thoáng mát.",
+      "Cổ tròn, tay ngắn, hàng khuy cài kim loại.",
+      "Họa tiết kẻ ngang (Breton) phối viền tương phản.",
+      "Dễ phối cùng quần short cạp cao, quần tây ống suông hoặc chân váy chữ A.",
+      "Giặt tay hoặc dùng túi giặt, chế độ nhẹ; nên gấp gọn thay vì treo móc."
+    ],
+    sizeGuide: {
+      type: "table",
+      note: "Gợi ý theo cân nặng: S dưới 49kg, M 49 – 55kg, L 56 – 60kg. Thông số có thể chênh 1 – 2cm tùy cách đo. Nếu phân vân giữa 2 size, vui lòng nhắn Zalo để được tư vấn.",
+      tables: [
+        { title: "Số đo áo (cm)", head: ["Size", "Vai", "Dài áo", "Ngực", "Eo"], rows: [["S", 37, 60, 86, 68], ["M", 38, 62, 90, 72], ["L", 39, 63, 92, 76], ["XL", 40, 64, 94, 78]] }
+      ]
+    }
+  },
   {
     id: "elise-dress",
     name: "Elise Dress",
