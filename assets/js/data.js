@@ -70,7 +70,7 @@ window.PRODUCTS = [
     sizes: ["Freesize"],
     modes: [{ id: "main", label: "Áo", groups: ["ao"], price: 449000 }],
     colors: [
-      { id: "trang-co-nau", name: "Trắng cổ nâu", hex: "#f4efe6", code: "AO-LEN-POLO-TR", images: ["images/ao-polo/ao-len-polo-co-nau-trang-01.jpg","images/ao-polo/ao-len-polo-co-nau-trang-02.jpg","images/ao-polo/ao-len-polo-co-nau-trang-03.jpg","images/ao-polo/ao-len-polo-co-nau-trang-04.jpg","images/ao-polo/ao-len-polo-co-nau-trang-05.jpg","images/ao-polo/ao-len-polo-co-nau-trang-06.jpg","images/ao-polo/ao-len-polo-co-nau-trang-07.jpg","images/ao-polo/ao-len-polo-co-nau-trang-08.jpg"] }
+      { id: "trang-co-nau", name: "Trắng cổ nâu", hex: "#f4efe6", code: "AO-LEN-POLO-TR", images: ["images/ao-polo/ao-len-polo-co-nau-muse1-1.jpg", "images/ao-polo/ao-len-polo-co-nau-muse1-2.jpg", "images/ao-polo/ao-len-polo-co-nau-muse1-3.jpg"] }
     ],
     summary: "Áo len dệt kim cộc tay cổ polo bẻ tự do, cổ và viền tay màu nâu trên nền trắng.",
     highlights: [
