@@ -39,12 +39,16 @@
   function soldOutAll(p, mode) {
     return p.colors.every(function (c) { return p.sizes.every(function (s) { return avail(p, mode, c, s) <= 0; }); });
   }
+  var saleOn = function () { var sl = C.sale; return !!(sl && sl.active && sl.percent > 0 && (!sl.end || new Date() <= new Date(sl.end))); };
   function priceFor(mode, colorId) {
     var v = mode.priceByColor ? mode.priceByColor[colorId] : mode.price;
+    var early = typeof v === "object" && earlyActive();
+    var base = typeof v === "number" ? v : (early ? v.early : v.late);
+    if (saleOn()) return { now: Math.round(base * (1 - C.sale.percent / 100) / 1000) * 1000, was: base, sale: C.sale.percent };
     if (typeof v === "number") return { now: v };
-    return earlyActive() ? { now: v.early, was: v.late } : { now: v.late };
+    return early ? { now: v.early, was: v.late, early: true } : { now: v.late };
   }
-  function priceHtml(pr) { return '<div class="price"><span class="now">' + fmt(pr.now) + "</span>" + (pr.was ? '<span class="was">' + fmt(pr.was) + "</span>" : "") + "</div>"; }
+  function priceHtml(pr) { return '<div class="price' + (pr.sale ? " sale" : "") + '"><span class="now">' + fmt(pr.now) + "</span>" + (pr.was ? '<span class="was">' + fmt(pr.was) + "</span>" : "") + (pr.sale ? '<span class="off">-' + pr.sale + "%</span>" : "") + "</div>"; }
   function firstImage(p) { for (var i = 0; i < p.colors.length; i++) if (p.colors[i].images && p.colors[i].images.length) return p.colors[i].images[0]; return ""; }
   function placeholder(name) { return '<div class="ph" role="img" aria-label="' + esc(name || "Ảnh") + ', ảnh sắp có"><svg class="ph-art" viewBox="0 0 120 160" aria-hidden="true"><path d="M44 8c4 10 28 10 32 0l22 16-10 24-12-6v104H44V42l-12 6L22 24z"/></svg><div class="mono">M</div>' + (name ? '<div class="cap">' + esc(name) + "</div>" : "") + '<div class="cap soon">Ảnh sắp có</div></div>'; }
 
@@ -123,7 +127,7 @@
     var dots = p.colors.map(function (c) { return '<span class="dot" title="' + esc(c.name) + '" style="background:' + c.hex + '"></span>'; }).join("");
     var out = soldOutAll(p, m) ? '<div class="soldall">Hết hàng</div>' : "";
     return '<article class="card"><a class="pic-link" href="san-pham.html?id=' + p.id + "&mode=" + m.id + '" aria-label="' + esc(name) + '" tabindex="-1"><div class="img">' +
-      (img ? '<img loading="lazy" src="' + img + '" alt="' + esc(name) + '">' : placeholder(p.name)) + tag + out + "</div></a>" +
+      (img ? '<img loading="lazy" src="' + img + '" alt="' + esc(name) + '">' : placeholder(p.name)) + tag + (pr.sale ? '<span class="sale-badge">-' + pr.sale + '%</span>' : "") + out + "</div></a>" +
       '<button class="heart' + (wish.indexOf(p.id) >= 0 ? " on" : "") + '" data-wish="' + p.id + '" aria-label="Yêu thích ' + esc(p.name) + '"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.6-9 9-9 9z"/></svg></button>' +
       '<div class="meta"><a class="name" href="san-pham.html?id=' + p.id + "&mode=" + m.id + '">' + esc(name) + "</a>" + priceHtml(pr) + '<div class="dots">' + dots + "</div></div></article>";
   }
@@ -159,7 +163,7 @@
       return "<details><summary>" + n.t + "</summary>" + n.sub.map(function (s) { return '<a href="' + s[1] + '">' + s[0] + "</a>"; }).join("") + "</details>";
     }).join("");
     $("#site-header").innerHTML =
-      '<div class="announce">Miễn phí vận chuyển cho đơn từ ' + fmt(C.freeShipFrom) + " và đơn chuyển khoản · Đổi hàng trong 3 ngày</div>" +
+      '<div class="announce">' + (saleOn() ? C.sale.name + ": giảm " + C.sale.percent + "% toàn bộ cửa hàng" + (C.sale.endLabel ? " đến hết " + C.sale.endLabel : "") + " · " : "") + "Miễn phí vận chuyển cho đơn từ " + fmt(C.freeShipFrom) + " và đơn chuyển khoản · Đổi hàng trong 3 ngày</div>" +
       '<header class="header"><div class="bar"><div class="left"><button class="icon-btn menu-btn" id="open-menu" aria-label="Mở menu">' + ICON.menu + '</button><nav class="nav" aria-label="Chính">' + nav + '</nav></div>' +
       '<a class="logo" href="index.html" aria-label="Minalie, về trang chủ"><img class="logo-img" src="images/brand/logo-full.png" alt="Minalie" width="988" height="644"></a>' +
       '<div class="right"><button class="icon-btn" id="open-search" aria-label="Tìm kiếm">' + ICON.search + '<span class="sl">Tìm kiếm</span></button>' +
@@ -219,12 +223,13 @@
     var gram = []; P.forEach(function (p) { p.colors.forEach(function (c) { (c.images || []).forEach(function (im) { if (gram.indexOf(im) < 0) gram.push(im); }); }); });
     gram = gram.slice(0, 6);
     var ig = gram.map(function (im) { return '<a href="' + C.instagram + '" target="_blank" rel="noopener" aria-label="Xem trên Instagram"><img loading="lazy" src="' + im + '" alt=""></a>'; }).join("");
-    var slides = [
+    var slides = (saleOn() ? [{ bf: true }] : []).concat([
       { img: "images/banner/new-collection-1.jpg", href: "moi-nhat.html", alt: "Bộ sưu tập mới Minalie: áo dài Nhiên, Elise Dress, Marine Set" },
       { img: "images/banner/new-collection-marine.jpg", href: "san-pham.html?id=marine-set", alt: "Marine Set, bộ sưu tập mới Minalie" },
       { img: "images/banner/new-collection-elise.jpg", href: "san-pham.html?id=elise-dress", alt: "Elise Dress, bộ sưu tập mới Minalie" }
-    ];
+    ]);
     var banner = '<section class="bn" aria-roledescription="carousel" aria-label="Bộ sưu tập mới"><div class="bn-track" id="bn-track">' + slides.map(function (sl, i) {
+      if (sl.bf) return '<a class="bn-slide bf" role="group" aria-roledescription="slide" aria-label="' + (i + 1) + " / " + slides.length + '" href="danh-muc.html"><div class="bf-in"><div class="bf-txt"><p class="bf-k">' + esc(C.sale.name) + '</p><h2>Giảm <em>' + C.sale.percent + '%</em><span> toàn bộ cửa hàng</span></h2><p class="bf-s">' + (C.sale.endLabel ? "Đến hết " + C.sale.endLabel + " · " : "") + 'Giá đã giảm trên từng sản phẩm</p><span class="btn light">Mua ngay</span></div><div class="bf-num" aria-hidden="true">' + C.sale.percent + '<small>%</small></div></div></a>';
       return '<a class="bn-slide" role="group" aria-roledescription="slide" aria-label="' + (i + 1) + " / " + slides.length + '" href="' + sl.href + '"><img ' + (i ? 'loading="lazy" ' : "") + 'src="' + sl.img + '" alt="' + esc(sl.alt) + '" width="1600" height="690"></a>';
     }).join("") + '</div><button class="bn-arr prev" type="button" aria-label="Banner trước">‹</button><button class="bn-arr next" type="button" aria-label="Banner sau">›</button><button class="bn-pause" type="button" aria-label="Tạm dừng banner" aria-pressed="false"><span aria-hidden="true"></span></button><div class="bn-dots" id="bn-dots">' + slides.map(function (e, i) { return '<button type="button" aria-label="Chuyển đến banner ' + (i + 1) + '"></button>'; }).join("") + "</div></section>";
     app().innerHTML = '<div class="rt">' + banner +
@@ -367,7 +372,7 @@
     var sizes = '<div class="field-label"><span>Kích cỡ</span><b>' + (S.size || "Chưa chọn") + '</b></div><div class="chips" role="group" aria-label="Kích cỡ">' + p.sizes.map(function (s) { var n = avail(p, mode, color, s); return '<button class="chip' + (S.size === s ? " on" : "") + (n <= 0 ? " out" : "") + '" data-size="' + s + '"' + (n <= 0 ? ' disabled title="Hết hàng" aria-label="Size ' + s + ', hết hàng"' : "") + ">" + s + "</button>"; }).join("") + "</div>" +
       (p.sizes.some(function (s) { return avail(p, mode, color, s) <= 0; }) ? '<p style="font-size:12.5px;color:var(--muted);margin:8px 0 0">Size mờ là đã hết hàng.</p>' : "");
     var pairNote = mode.id === "bo" ? '<div class="note-box">Bộ gồm áo dài Nhiên ' + esc(color.name.toLowerCase()) + " và " + esc(color.pairName) + ".</div>" : "";
-    var earlyNote = pr.was ? '<span class="early">Giá mua sớm đến hết 10/11</span>' : "";
+    var earlyNote = pr.early ? '<span class="early">Giá mua sớm đến hết 10/11</span>' : (pr.sale ? '<span class="early sale-note">' + esc(C.sale.name) + ": giảm " + pr.sale + "%" + (C.sale.endLabel ? " đến hết " + C.sale.endLabel : "") + "</span>" : "");
     var preNote = pre ? '<div class="note-box"><b>Đặt trước.</b> Mở bán chính thức lúc 20:00 ngày 05/11/2026. Đơn đặt trước được giữ hàng theo thứ tự đặt, Minalie xác nhận qua số điện thoại.</div>' : "";
     var related = P.filter(function (x) { return x.id !== p.id; }).slice(0, 4).map(function (x) { return { p: x, m: x.modes[0] }; });
     var code = color.code + (mode.id === "bo" ? " + " + color.pairCode : "");

@@ -23,7 +23,9 @@ window.CONFIG = {
   // Địa chỉ cùng Web App (doGet) để đọc tồn kho từ sheet. Để trống = dùng tồn kho bên dưới.
   stockEndpoint: "https://script.google.com/macros/s/AKfycbygqKei8dHGt9Q5UYU2nd3ESDN5Q8OQwsLEt2sjp3AAFWFqVPe7YPNI_iwJKNq0I5FDaw/exec",
   // Số lượng tối đa website hiển thị/cho đặt mỗi size trong một lần (không lộ tồn kho thật).
-  stockCap: 5
+  stockCap: 5,
+  // Chương trình giảm giá toàn cửa hàng (Black Friday). Đặt active: false hoặc để hết hạn "end" là website tự về giá thường.
+  sale: { active: true, name: "Black Friday", percent: 35, end: "2026-11-30T23:59:59+07:00", endLabel: "30/11" }
 };
 
 /* Tồn kho theo mã SP và size. Số công khai bị giới hạn ở stockCap (5) để không lộ lượng hàng thật; số thật nằm trong sheet "Minalie - Tồn kho". */
