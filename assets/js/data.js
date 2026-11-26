@@ -40,14 +40,17 @@ window.STOCK = {
   "QUAN-AD-CHUN":  { S: 0, M: 2, L: 0, XL: 0 },
   "AO-LEN-KENGANG-TR": { S: 5, M: 5, L: 5, XL: 5 },
   "AO-LEN-KENGANG-DE": { S: 5, M: 5, L: 5, XL: 5 },
-  "AO-LEN-POLO-TR": { Freesize: 5 }
+  "AO-LEN-POLO-TR": { Freesize: 5 },
+  "AO-CANJI-TR": { Freesize: 5 },
+  "AO-CANJI-DE": { Freesize: 5 }
 };
 
 window.COLLECTIONS = [
   { id: "elise-dress", name: "Elise Dress", blurb: "Váy tweed dáng suông, cổ sen và cúc bọc vải." },
   { id: "marine-set", name: "Marine Set", blurb: "Bộ áo và quần đũi tre mỏng, nhẹ, thoáng." },
   { id: "ao-dai-nhien", name: "Áo dài Nhiên", blurb: "Áo dài tơ nhăn form suông nhẹ, số lượng rất ít." },
-  { id: "ao-len-ke-ngang", name: "Áo cộc len kẻ ngang", blurb: "Áo len dệt kim phong cách Paris Chic: kẻ ngang và polo cổ nâu." }
+  { id: "ao-len-ke-ngang", name: "Áo cộc len kẻ ngang", blurb: "Áo len dệt kim phong cách Paris Chic: kẻ ngang và polo cổ nâu." },
+  { id: "canji-shirt", name: "Canji Shirt", blurb: "Áo khoác cardigan dệt kim mỏng, cài nút ngọc trai." }
 ];
 
 window.GROUPS = {
@@ -64,6 +67,33 @@ window.GROUPS = {
   - pairCode: mã SP của quần đi kèm khi mua bộ (theo màu).
 */
 window.PRODUCTS = [
+  {
+    id: "canji-shirt",
+    name: "Canji Shirt",
+    collection: "canji-shirt",
+    isNew: true,
+    sizes: ["Freesize"],
+    modes: [{ id: "main", label: "Áo", groups: ["ao"], price: 349000 }],
+    colors: [
+      { id: "trang", name: "Trắng", hex: "#f4f1ea", code: "AO-CANJI-TR", images: ["images/canji/canji-trang-muse3-1.jpg"] },
+      { id: "den", name: "Đen", hex: "#1c1c1c", code: "AO-CANJI-DE", images: ["images/canji/canji-den-muse3-1.jpg"] }
+    ],
+    summary: "Áo khoác cardigan dệt kim mỏng, cổ tròn, cài hàng nút ngọc trai, ôm gọn cơ thể và thoáng khí.",
+    highlights: [
+      "Len dệt kim gân nhỏ, thoáng khí, co giãn và giữ ấm nhẹ.",
+      "Cổ tròn, cài hàng nút ngọc trai phía trước.",
+      "Tay dài, độ dài ngang eo, ôm gọn cơ thể.",
+      "Khoác ngoài váy hai dây hoặc áo thun đều đẹp, mặc cài hoặc để hở.",
+      "Freesize cho người dưới 60kg."
+    ],
+    sizeGuide: {
+      type: "table",
+      note: "Freesize, phù hợp người dưới 60kg. Nếu phân vân, vui lòng nhắn Zalo để được tư vấn.",
+      tables: [
+        { title: "Gợi ý chọn size", head: ["Size", "Cân nặng"], rows: [["Freesize", "Dưới 60kg"]] }
+      ]
+    }
+  },
   {
     id: "ao-len-polo-co-nau",
     name: "Áo len dệt kim polo cổ nâu",
