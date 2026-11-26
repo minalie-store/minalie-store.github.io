@@ -96,8 +96,8 @@ window.PRODUCTS = [
     sizes: ["S", "M", "L", "XL"],
     modes: [{ id: "main", label: "Áo", groups: ["ao"], price: 449000 }],
     colors: [
-      { id: "trang", name: "Trắng", hex: "#f4f1ea", code: "AO-LEN-KENGANG-TR", images: ["images/ao-len/ao-len-ke-ngang-trang-2.jpg", "images/ao-len/ao-len-ke-ngang-trang-1.jpg"] },
-      { id: "den", name: "Đen", hex: "#1c1c1c", code: "AO-LEN-KENGANG-DE", images: ["images/ao-len/ao-len-ke-ngang-den-1.jpg", "images/ao-len/ao-len-ke-ngang-den-2.jpg", "images/ao-len/ao-len-ke-ngang-den-3.jpg"] }
+      { id: "trang", name: "Trắng", hex: "#f4f1ea", code: "AO-LEN-KENGANG-TR", images: ["images/ao-len/ao-len-ke-ngang-trang-muse1-1.jpg", "images/ao-len/ao-len-ke-ngang-trang-muse1-2.jpg", "images/ao-len/ao-len-ke-ngang-trang-muse1-3.jpg"] },
+      { id: "den", name: "Đen", hex: "#1c1c1c", code: "AO-LEN-KENGANG-DE", images: ["images/ao-len/ao-len-ke-ngang-den-muse1-1.jpg", "images/ao-len/ao-len-ke-ngang-den-muse1-2.jpg", "images/ao-len/ao-len-ke-ngang-den-muse1-3.jpg"] }
     ],
     summary: "Áo len dệt kim cộc tay cổ tròn, họa tiết kẻ ngang phối viền, phong cách Paris Chic.",
     highlights: [
