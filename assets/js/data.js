@@ -124,7 +124,7 @@ window.PRODUCTS = [
     modes: [{ id: "main", label: "Váy", groups: ["vay"], price: 649000 }],
     colors: [
       { id: "trang-kem", name: "Trắng kem", hex: "#efe6d8", code: "VAY-ELISE-TK", images: ["images/elise/elise-trang-kem-muse1-1.jpg", "images/elise/elise-trang-kem-muse1-2.jpg", "images/elise/elise-trang-kem-muse1-3.jpg"] },
-      { id: "xanh-than", name: "Xanh than", hex: "#1f2a44", code: "VAY-ELISE-XT", images: ["images/elise/elise-xanh-than-muse1-1.jpg"] }
+      { id: "xanh-than", name: "Xanh than", hex: "#1f2a44", code: "VAY-ELISE-XT", images: ["images/elise/elise-xanh-than-muse1-1.jpg", "images/elise/elise-xanh-than-muse1-2.jpg", "images/elise/elise-xanh-than-muse1-3.jpg"] }
     ],
     summary: "Váy tweed dáng suông chữ A, cổ sen tròn, 7 cúc bọc vải, túi ẩn hai bên hông.",
     highlights: [
