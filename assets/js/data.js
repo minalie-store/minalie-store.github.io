@@ -75,8 +75,8 @@ window.PRODUCTS = [
     sizes: ["Freesize"],
     modes: [{ id: "main", label: "Áo", groups: ["ao"], price: 349000 }],
     colors: [
-      { id: "trang", name: "Trắng", hex: "#f4f1ea", code: "AO-CANJI-TR", images: ["images/canji/canji-trang-muse3-1.jpg"] },
-      { id: "den", name: "Đen", hex: "#1c1c1c", code: "AO-CANJI-DE", images: ["images/canji/canji-den-muse3-1.jpg"] }
+      { id: "trang", name: "Trắng", hex: "#f4f1ea", code: "AO-CANJI-TR", images: ["images/canji/canji-trang-muse3-1.jpg", "images/canji/canji-trang-muse3-2.jpg", "images/canji/canji-trang-muse3-3.jpg"] },
+      { id: "den", name: "Đen", hex: "#1c1c1c", code: "AO-CANJI-DE", images: ["images/canji/canji-den-muse3-1.jpg", "images/canji/canji-den-muse3-2.jpg", "images/canji/canji-den-muse3-3.jpg"] }
     ],
     summary: "Áo khoác cardigan dệt kim mỏng, cổ tròn, cài hàng nút ngọc trai, ôm gọn cơ thể và thoáng khí.",
     highlights: [
